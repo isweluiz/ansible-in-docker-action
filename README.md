@@ -56,7 +56,6 @@ This action supports private Github repositories in your requirements file by se
 ### Inputs
 
 The action has several input parameters:
-
 | Option            | Description                                                                                                                                | Option            | Description                                                                                                                                |   |
 |-------------------|--------------------------------------------------------------------------------------------------------------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---|
 | playbookName      | Name of the playbook in your workspace.                                                                                                    | playbookName      | Name of the playbook in your workspace.                                                                                                    |   |

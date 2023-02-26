@@ -20,7 +20,7 @@ on:
 env:
   REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
   REGISTRY_TOKEN: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
-  IMAGE_NAME: ansible_docker_action
+  IMAGE_NAME: ansible-docker-action
   IMAGE_TAG_PR: PR
 
 jobs:
@@ -78,7 +78,7 @@ jobs:
 #    Build + Push Steps 
 #   -------------------------------------------------------------
       - name: Build and Push - pull request development process  
-        id: docker_build_push_dev
+        id: docker_build_push-dev
         if: github.event_name == 'pull_request' || github.event_name == 'push' && github.ref != 'refs/heads/main'
         uses: docker/build-push-action@v4
         with:
@@ -93,7 +93,7 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
 
       - name: Build and Push - latest version
-        id: docker_build_push_prd
+        id: docker_build_push-latest
         if: ${{ (github.ref == 'refs/heads/main') && (github.event_name == 'push') && (steps.changed-file-version.outputs.any_changed == 'true') }}
         uses: docker/build-push-action@v4
         with:
