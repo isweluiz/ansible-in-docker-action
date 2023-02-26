@@ -1,20 +1,9 @@
 FROM python:3.10.10-alpine3.16
 LABEL MAINTEINER="Luiz" 
 
-# Creating Ansible folder
-# ----------------------------
-RUN mkdir -p /etc/ansible \
-    && echo 'localhost' > /etc/ansible/hosts \
-    && echo -e """\
-\n\
-Host *\n\
-    StrictHostKeyChecking no\n\
-    UserKnownHostsFile=/dev/null\n\
-""" >> /etc/ssh/ssh_config
 
 # Copying Ansible requirements
 # ----------------------------
-COPY ansible.cfg /etc/ansible
 COPY requirements/requirements.txt /opt/requirements.txt 
 COPY requirements/requirements.yml /opt/requirements.yml 
 
@@ -41,6 +30,19 @@ RUN apk update && \
     ansible-galaxy install -r /opt/requirements.yml --force &&\
     apk del builddeps && \
     rm -rf /var/cache/apk/*
+
+# Creating Ansible folder
+# ----------------------------
+RUN mkdir -p /etc/ansible \
+    && echo 'localhost' > /etc/ansible/hosts \
+    && echo -e """\
+\n\
+Host *\n\
+    StrictHostKeyChecking no\n\
+    UserKnownHostsFile=/dev/null\n\
+""" >> /etc/ssh/ssh_config
+
+COPY ansible.cfg /etc/ansible
 
 RUN which python
 RUN ansible --version

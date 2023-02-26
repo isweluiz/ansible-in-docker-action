@@ -1,0 +1,19 @@
+# ================================================================================== #
+#   Trigger
+#   - On each pull_request this action will check if the the files/folders modified \
+#   match with the files/folders defined on .github/labeler.yml and label the PR. 
+# ================================================================================== #
+
+name: CI - PR Labeler
+on: [pull_request]
+
+jobs:
+  triage:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v4
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
