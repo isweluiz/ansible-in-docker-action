@@ -1,0 +1,163 @@
+---
+name: CI
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+    paths-ignore:  # don't rebuild image if someone only edited unrelated files
+      - 'README.md'
+      - '.github/CONTRIBUTING.md'
+      - '.github/dependabot.yml'
+      - '.github/pull_request_template.md'
+  push:
+    branches:
+      - 'main'
+    paths-ignore: 
+      - 'README.md'
+      - '.github/CONTRIBUTING.md'
+      - '.github/dependabot.yml'
+      - '.github/pull_request_template.md'     
+
+env:
+  REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+  REGISTRY_TOKEN: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+  IMAGE_NAME: ansible_docker_action
+  IMAGE_TAG_PR: PR
+
+jobs:
+
+  build-image:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    name: Build and Push 
+    steps:
+    
+#   -------------------------------------------------------------
+#   Checkout repository + get changes in VERSION file
+#   -------------------------------------------------------------    
+      - name: Checkout the repo
+        id: checkout-repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@57d9664f8e2aa45f26bcb59095f99aa47ae8e90d 
+ 
+      - name: Get changed file release control
+        id: changed-file-version
+        uses: tj-actions/changed-files@57d9664f8e2aa45f26bcb59095f99aa47ae8e90d 
+        with:
+          files: |
+            VERSION
+
+#   -------------------------------------------------------------
+#   Registry login 
+#   -------------------------------------------------------------
+      - name: Set up QEMU
+        id: set-qemu
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        id: set-buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker registry
+        id: login-artifactory-prd
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_TOKEN }}
+
+      - name: Set variables
+        # The python script will check if the version file match with the semantic version and also if the file exist and if it's not empty
+        id: set-version-variable 
+        run: pyversion_check=$($GITHUB_WORKSPACE/.github/utils/pyversion_check) && echo "VERSION=$pyversion_check" >> $GITHUB_ENV
+
+#   -------------------------------------------------------------
+#    Build + Push Steps 
+#   -------------------------------------------------------------
+      - name: Build and Push - pull request development process  
+        id: docker_build_push_dev
+        if: github.event_name == 'pull_request' || github.event_name == 'push' && github.ref != 'refs/heads/main'
+        uses: docker/build-push-action@v4
+        with:
+          context: ansible-docker-image/
+          push: true
+          platforms: |-
+            linux/amd64
+          tags: "${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_PR }}-${{ github.event.number }}-${{ env.VERSION }}"
+          labels: |
+            maintainer=${{ github.repository_owner }}
+            org.opencontainers.image.vendor=${{ github.repository_owner }}
+            org.opencontainers.image.revision=${{ github.sha }}
+
+      - name: Build and Push - latest version
+        id: docker_build_push_prd
+        if: ${{ (github.ref == 'refs/heads/main') && (github.event_name == 'push') && (steps.changed-file-version.outputs.any_changed == 'true') }}
+        uses: docker/build-push-action@v4
+        with:
+          context: ansible-docker-image/
+          push: true
+          platforms: |-
+            linux/amd64
+          tags: "${{ env.IMAGE_NAME }}:${{ env.VERSION }}"
+          labels: |
+            maintainer=${{ github.repository_owner }}
+            org.opencontainers.image.vendor=${{ github.repository_owner }}
+            org.opencontainers.image.revision=${{ github.sha }} 
+
+#   ----------------------------------------------------------------------
+#   Release Steps
+#   New release will be created always when the VERSION file was changed
+#   ----------------------------------------------------------------------
+  create_release:
+    if: ${{ (github.ref == 'refs/heads/main') && (github.event_name == 'push') }}
+    runs-on: ubuntu-latest
+    needs: [build-image]
+    name: Create Release
+    steps:
+
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: Set variables
+        id: set-version-variable 
+        run: pyversion_check=$($GITHUB_WORKSPACE/.github/utils/pyversion_check) && echo "RELEASE_VERSION=$pyversion_check" >> $GITHUB_ENV
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@0626c3f94002c0a9d7491dd7fed7055bbdff6f92 
+ 
+      - name: Get changed file release control
+        id: changed-file-version
+        uses: tj-actions/changed-files@0626c3f94002c0a9d7491dd7fed7055bbdff6f92 
+        with:
+          files: |
+            VERSION
+
+      - name: Create release
+        if: > 
+          steps.changed-file-version.outputs.any_changed == 'true' 
+        continue-on-error: true
+        uses: actions/github-script@v6
+        env: 
+          RELEASE_TAG: ${{ env.RELEASE_VERSION }}
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            try {
+              await github.rest.repos.createRelease({
+                draft: false,
+                generate_release_notes: true,
+                name: process.env.RELEASE_TAG,
+                owner: context.repo.owner,
+                prerelease: false,
+                repo: context.repo.repo,
+                tag_name: process.env.RELEASE_TAG,
+              });
+            } catch (error) {
+              core.setFailed(error.message);
+            }

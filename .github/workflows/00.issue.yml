@@ -1,0 +1,16 @@
+name: Respond to New Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  respond-to-new-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Respond to Issue
+        uses: peter-evans/create-issue-comment@v1.4.2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Thanks for opening this issue! We'll do our best to address it as soon as possible. In the meantime, feel free to contribute to the project or check out our documentation. If you have any further questions, don't hesitate to reach.

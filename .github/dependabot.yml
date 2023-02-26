@@ -1,0 +1,23 @@
+# -------------------------------------------------------------
+# Dependabot
+# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/keeping-your-actions-up-to-date-with-dependabot
+# Dependabot will help ensure that references to actions in a 
+# repository's workflows are kept up to date.
+# -------------------------------------------------------------
+---
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    commit-message:
+      prefix: "UPDATE"
+    labels:
+      - dependabot
+      - dependencies
+      - skip-changelog
+      - skip-release
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    pull-request-branch-name:
+      separator: "-"

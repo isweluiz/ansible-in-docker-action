@@ -1,0 +1,56 @@
+# action.yml
+name: 'Ansible In Docker Action'
+author: 'Luiz'
+description: "Let's make Ansible a breeze with the Ansible-in-Docker action! ⚡️"
+inputs:
+  playbookName:
+    description: 'Name of the playbook in your workspace.'
+    required: true
+  inventoryFile:
+    description: 'Name of the inventory file to use.'
+    required: false
+  requirementsFile:
+    description: 'name of the requirements file to use.'
+    required: false
+  galaxyGithubUser:
+    description: 'If you use private github repositories in your requirements file you need to set galaxyGithubUser and galaxyGithub token.'
+    required: false
+  galaxyGithubToken:
+    description: 'Token to access git source of roles to download. Only needed for private git sources. Github Account needs to be linked to Ansible Galaxy.'
+    required: false
+  rolesPath:
+    description: 'If inventoryFile is set you can also specify a custom roles path to install your required roles in.'
+    required: false
+  keyFile:
+    description: 'Keyfile to use for host connections.'
+    required: false
+  keyFileVaultPass:
+    description: 'Vault Password to decrypt keyFile.'
+    required: false
+  extraVars:
+    description: 'String containing all extraVars which you want to be injected into the run.'
+    required: false
+  extraFile:
+    description: 'File containing extra vars.'
+    required: false
+  verbosity:
+    description: 'Choose one of 4 verbosity levels. See Ansible documentation for details.'
+    required: false
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.playbookName }}
+    - ${{ inputs.inventoryFile }}
+    - ${{ inputs.requirementsFile }}
+    - ${{ inputs.galaxyGithubUser }}
+    - ${{ inputs.galaxyGithubToken }}
+    - ${{ inputs.keyFile }}
+    - ${{ inputs.keyFileVaultPass }}
+    - ${{ inputs.extraVars }}
+    - ${{ inputs.extraFile }}
+    - ${{ inputs.verbosity }}
+branding:
+  icon : 'play-circle'
+  color : 'blue'
+
