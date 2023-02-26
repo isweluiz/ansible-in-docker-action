@@ -97,7 +97,8 @@ jobs:
         if: ${{ (github.ref == 'refs/heads/main') && (github.event_name == 'push') && (steps.changed-file-version.outputs.any_changed == 'true') }}
         uses: docker/build-push-action@v4
         with:
-          context: ansible-docker-image/
+          context: .
+          file: ./ansible-docker-image/Dockerfile
           push: true
           platforms: |-
             linux/amd64
