@@ -56,19 +56,20 @@ This action supports private Github repositories in your requirements file by se
 ### Inputs
 
 The action has several input parameters:
-| Option            | Description                                                                                                                                | Option            | Description                                                                                                                                |   |
-|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---|
-| playbookName      | Name of the playbook in your workspace.                                                                                                    | playbookName      | Name of the playbook in your workspace.                                                                                                    |   |
-| inventoryFile     | Name of the inventory file to use.                                                                                                         | inventoryFile     | Name of the inventory file to use.                                                                                                         |   |
-| requirementsFile  | Name of the requirements file to use.                                                                                                      | requirementsFile  | Name of the requirements file to use.                                                                                                      |   |
-| galaxyGithubUser  | If you use private GitHub repositories in your requirements file you need to set galaxyGithubUser and galaxyGithubToken.                   | galaxyGithubUser  | If you use private GitHub repositories in your requirements file you need to set galaxyGithubUser and galaxyGithubToken.                   |   |
-| galaxyGithubToken | Token to access git source of roles to download. Only needed for private git sources. GitHub Account needs to be linked to Ansible Galaxy. | galaxyGithubToken | Token to access git source of roles to download. Only needed for private git sources. GitHub Account needs to be linked to Ansible Galaxy. |   |
-| rolesPath         | If inventoryFile is set, you can also specify a custom roles path to install your required roles in.                                       | rolesPath         | If inventoryFile is set, you can also specify a custom roles path to install your required roles in.                                       |   |
-| keyFile           | Keyfile to use for host connections.                                                                                                       | keyFile           | Keyfile to use for host connections.                                                                                                       |   |
-| keyFileVaultPass  | Vault Password to decrypt keyFile.                                                                                                         | keyFileVaultPass  | Vault Password to decrypt keyFile.                                                                                                         |   |
-| extraVars         | String containing all extraVars which you want to be injected into the run.                                                                | extraVars         | String containing all extraVars which you want to be injected into the run.                                                                |   |
-| extraFile         | File containing extra vars.                                                                                                                | extraFile         | File containing extra vars.                                                                                                                |   |
-| verbosity         | Choose one of 4 verbosity levels. See Ansible documentation for details.                                                                   | verbosity         | Choose one of 4 verbosity levels. See Ansible documentation for details.                                                                   |   |
+
+| Option            | Description                                                                                                                                |   |
+|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---|
+| playbookName      | Name of the playbook in your workspace.                                                                                                    |   |
+| inventoryFile     | Name of the inventory file to use.                                                                                                         |   |
+| requirementsFile  | Name of the requirements file to use.                                                                                                      |   |
+| galaxyGithubUser  | If you use private GitHub repositories in your requirements file you need to set galaxyGithubUser and galaxyGithubToken.                   |   |
+| galaxyGithubToken | Token to access git source of roles to download. Only needed for private git sources. GitHub Account needs to be linked to Ansible Galaxy. |   |
+| rolesPath         | If inventoryFile is set, you can also specify a custom roles path to install your required roles in.                                       |   |
+| keyFile           | Keyfile to use for host connections.                                                                                                       |   |
+| keyFileVaultPass  | Vault Password to decrypt keyFile.                                                                                                         |   |
+| extraVars         | String containing all extraVars which you want to be injected into the run.                                                                |   |
+| extraFile         | File containing extra vars.                                                                                                                |   |
+| verbosity         | Choose one of 4 verbosity levels. See Ansible documentation for details.                                                                   |   |
 
 All of these parameters are optional except playbookName, which is required.
 ### 🎉🎉🎉 Contributing 🎉🎉🎉
