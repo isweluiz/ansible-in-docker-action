@@ -1,4 +1,5 @@
 [![CI](https://github.com/isweluiz/ansible-in-docker-action/actions/workflows/00.docker_build.yml/badge.svg)](https://github.com/isweluiz/ansible-in-docker-action/actions/workflows/00.docker_build.yml)
+[![CI - test](https://github.com/isweluiz/ansible-in-docker-action/actions/workflows/00.action_test.yml/badge.svg?branch=main)](https://github.com/isweluiz/ansible-in-docker-action/actions/workflows/00.action_test.yml)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/isweluiz/ansible-in-docker-action)
 ![GitHub issues](https://img.shields.io/github/issues/isweluiz/ansible-in-docker-action)
 
