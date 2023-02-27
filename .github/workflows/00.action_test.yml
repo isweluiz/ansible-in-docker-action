@@ -21,4 +21,4 @@ jobs:
         with:
           playbookName: ./test/playbook.yml
           inventoryFile: ./test/inventory.yml
-          verbosity: vvv
+          verbosity: vv

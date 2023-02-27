@@ -4,11 +4,11 @@
 ![GitHub issues](https://img.shields.io/github/issues/isweluiz/ansible-in-docker-action)
 
 ## Table Of content
-[About](ansible-in-docker-action)
-[Usage](usage)
-[Inputs](inputs)
-[Inputs](license)
-[Copyright](sopyright)
+- [About](ansible-in-docker-action)
+- [Usage](usage)
+- [Inputs](inputs)
+- [Inputs](license)
+- [Copyright](sopyright)
 
 ## Ansible In Docker Action
 👋 Ahoy there, fellow GitHubber! Are you tired of constantly configuring Ansible for your GitHub Actions workflows? Well, have no fear, the Ansible-in-Docker action is here! 🐳

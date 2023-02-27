@@ -11,11 +11,3 @@
     - name: Output custom message
       debug:
         msg: "This is a custom message. It will only appear if the previous task succeeded."
-
-    - name: Run shell command
-      shell: echo "This is a shell command. It will be executed as the current user."
-      register: shell_output
-
-    - name: Output shell command result
-      debug:
-        var: shell_output.stdout
