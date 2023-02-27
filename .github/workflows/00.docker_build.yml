@@ -42,11 +42,11 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@57d9664f8e2aa45f26bcb59095f99aa47ae8e90d 
+        uses: tj-actions/changed-files@3ee6abf6107ccc2d8ee538de7ff6b1fb644f5d60 
  
       - name: Get changed file release control
         id: changed-file-version
-        uses: tj-actions/changed-files@57d9664f8e2aa45f26bcb59095f99aa47ae8e90d 
+        uses: tj-actions/changed-files@3ee6abf6107ccc2d8ee538de7ff6b1fb644f5d60 
         with:
           files: |
             VERSION
