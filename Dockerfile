@@ -1,4 +1,4 @@
-FROM isweluiz/ansible_docker_action:1.0.0
+FROM isweluiz/ansible-docker-action:1.0.0
 LABEL MAINTEINER="Luiz"
 
 COPY entrypoint.sh /run.sh
