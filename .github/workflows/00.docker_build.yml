@@ -102,7 +102,11 @@ jobs:
           push: true
           platforms: |-
             linux/amd64
+<<<<<<< HEAD
           tags: "${{ env.REGISTRY_USER }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}"
+=======
+          tags: "${{ env.IMAGE_NAME }}:${{ env.VERSION }}"
+>>>>>>> 43907f89688966dd61b4c2c125f0f119d8f27295
           labels: |
             maintainer=${{ github.repository_owner }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
