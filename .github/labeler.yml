@@ -1,0 +1,11 @@
+workflows:
+  - '.github/workflows/**/*'
+
+readme:
+  - 'README.md'
+
+ansible-docker-image:
+  - 'ansible-docker-image/**/*'
+
+action:
+  - 'Dockerfile'

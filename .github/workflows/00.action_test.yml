@@ -1,0 +1,25 @@
+---
+name: CI - test
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+
+  action-test:
+    needs: [build-image]
+    runs-on: ubuntu-latest
+    name: Testing Ansible
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: Perform ansible playbook
+        uses: isweluiz/ansible-in-docker-action@main
+        with:
+          playbookName: ./test/playbook.yml
+          inventoryFile: ./test/inventory.yml
+          verbosity: vvv
