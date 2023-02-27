@@ -128,20 +128,7 @@ jobs:
         id: set-version-variable 
         run: pyversion_check=$($GITHUB_WORKSPACE/.github/utils/pyversion_check) && echo "RELEASE_VERSION=$pyversion_check" >> $GITHUB_ENV
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@0626c3f94002c0a9d7491dd7fed7055bbdff6f92 
- 
-      - name: Get changed file release control
-        id: changed-file-version
-        uses: tj-actions/changed-files@0626c3f94002c0a9d7491dd7fed7055bbdff6f92 
-        with:
-          files: |
-            VERSION
-
       - name: Create release
-        if: > 
-          steps.changed-file-version.outputs.any_changed == 'true' 
         continue-on-error: true
         uses: actions/github-script@v6
         env: 
