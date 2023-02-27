@@ -42,7 +42,7 @@ Host *\n\
     UserKnownHostsFile=/dev/null\n\
 """ >> /etc/ssh/ssh_config
 
-COPY ansible.cfg /etc/ansible
+COPY ansible.cfg /etc/ansible/ansible.cfg
 
 RUN which python
 RUN ansible --version
