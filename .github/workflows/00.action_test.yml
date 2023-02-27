@@ -8,7 +8,6 @@ on:
 jobs:
 
   action-test:
-    needs: [build-image]
     runs-on: ubuntu-latest
     name: Testing Ansible
     steps:
