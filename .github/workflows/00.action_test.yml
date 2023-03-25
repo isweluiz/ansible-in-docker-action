@@ -33,7 +33,7 @@ jobs:
           verbosity: vv
           tags: 'apache,output'
 
-      - name: Perform ansible playbook - Install Apache - Using tag
+      - name: Perform ansible playbook - Extra variable - Using tag
         uses: ./ #isweluiz/ansible-in-docker-action@main
         with:
           playbook: ./test/playbook.yml
