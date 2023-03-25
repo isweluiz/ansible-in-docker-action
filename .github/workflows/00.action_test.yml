@@ -5,10 +5,9 @@ on:
     branches:
       - 'dev-*'
       - 'release-*'
-  push:
-    branches:
-      - 'main'
-
+  # push:
+  #   branches:
+  #     - 'main'
 
 jobs:
 
