@@ -22,3 +22,9 @@
         state: present
       tags:
         - apache
+
+    - name: Extra variable
+      ansible.builtin.debug:
+        msg: "DEBUG: {{ variable_xpto }}"
+      tags:
+        - variable
