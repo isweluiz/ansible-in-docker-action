@@ -40,4 +40,4 @@ jobs:
           inventory: ./test/inventory
           verbosity: vv
           skipTags: 'apache,output,custom'
-          extraVars: '"variable_xpto=Ansible_Variable_Check"'
+          extraVars: '"variable_xpto=Ansible release=1.0.1"'

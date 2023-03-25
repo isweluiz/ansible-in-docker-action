@@ -25,6 +25,6 @@
 
     - name: Extra variable
       ansible.builtin.debug:
-        msg: "DEBUG: {{ variable_xpto }}"
+        msg: "{{ variable_xpto }} - {{ release }}"
       tags:
         - variable

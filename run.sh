@@ -195,7 +195,7 @@ then
   echo "\$INPUT_EXTRAVARS not set. No tags to skip"
 else
   echo "\$INPUT_EXTRAVARS is set. Will inject ${INPUT_EXTRAVARS}."
-  export EXTRAVARS="-e ${INPUT_EXTRAVARS}"
+  export EXTRAVARS="--extra-vars ${INPUT_EXTRAVARS}"
 fi
 
 # Below the command that we're going to agregate and run after all the parameters filled on the action. 
