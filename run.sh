@@ -190,7 +190,7 @@ fi
 # Evaluate skip tags
 export EXTRAVARS=
 if [ -z "$INPUT_EXTRAVARS" ]
-#then
+then
   #echo "\$INPUT_EXTRAVARS not set. No tags to skip"
 else
   #echo "\$INPUT_EXTRAVARS is set. Will inject ${INPUT_EXTRAVARS}."
