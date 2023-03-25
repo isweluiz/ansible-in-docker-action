@@ -41,3 +41,4 @@ jobs:
           verbosity: vv
           skipTags: 'apache,output,custom'
           extraVars: '"variable_xpto=Ansible"'
+          checkMode: 'true'
