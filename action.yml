@@ -52,10 +52,10 @@ inputs:
     description: 'Run operations with become (does not imply password prompting).'
     required: false  
   tags:
-    description: 'Run operations with become (does not imply password prompting).'
+    description: 'Select tags.'
     required: false  
   skipTags:
-    description: 'Run operations with become (does not imply password prompting).'
+    description: 'Skip tags.'
     required: false 
 runs:
   using: 'docker'
@@ -75,9 +75,9 @@ runs:
     - ${{ inputs.diffMode }}
     - ${{ inputs.checkMode }}
     - ${{ inputs.limitGroup }}
-    - ${{ inputs.becomeMethod }}    
-    - ${{ inputs.tags }}    
-    - ${{ inputs.skipTags }}    
+    - ${{ inputs.becomeMethod }}
+    - ${{ inputs.tags }}
+    - ${{ inputs.skipTags }}
 branding:
   icon : 'play-circle'
   color : 'blue'

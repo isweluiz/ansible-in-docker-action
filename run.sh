@@ -174,7 +174,7 @@ then
   echo "\$INPUT_TAGS not set. Won't inject tags."
 else
   echo "\$INPUT_TAGS is set. Will inject ${INPUT_TAGS} tags."
-  export TAGS="--tags ${INPUT_TAGS}"
+  export TAGS="--tags=${INPUT_TAGS}"
 fi
 
 # Evaluate skip tags
@@ -184,13 +184,13 @@ then
   echo "\$INPUT_SKIPTAGS not set. No tags to skip"
 else
   echo "\$INPUT_SKIPTAGS is set. Will inject ${INPUT_SKIPTAGS}."
-  export SKIP_TAGS="--skip-tags ${INPUT_SKIPTAGS}"
+  export SKIP_TAGS="--skip-tags=${INPUT_SKIPTAGS}"
 fi
 
 # Below the command that we're going to agregate and run after all the parameters filled on the action. 
 # =====================================================================================================
-echo "Going to execute: "
-echo ansible-playbook ${INPUT_PLAYBOOK} ${INVENTORY} ${LIMITGROUP} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE} ${INPUT_TAGS} ${INPUT_SKIPTAGS}
+echo "Going to execute:\n"
+echo -e "ansible-playbook ${INPUT_PLAYBOOK} ${TAGS} ${SKIP_TAGS} ${INVENTORY} ${LIMITGROUP} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE}"
 
-ansible-playbook ${INPUT_PLAYBOOK} ${INVENTORY} ${LIMITGROUP} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE} ${INPUT_TAGS} ${INPUT_SKIPTAGS}
+ansible-playbook ${INPUT_PLAYBOOK} ${TAGS} ${SKIP_TAGS} ${INVENTORY} ${LIMITGROUP} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE} 
 
