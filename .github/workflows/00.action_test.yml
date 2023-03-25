@@ -1,13 +1,10 @@
 ---
 name: Test
 on:
-  pull_request:
+  push:
     branches:
-      - 'dev-*'
-      - 'release-*'
-  # push:
-  #   branches:
-  #     - 'main'
+      - '*'
+
 
 jobs:
 
