@@ -25,10 +25,10 @@ jobs:
           skipTags: 'apache'
           tags: 'custom'
 
-      # - name: Perform ansible playbook - Install Apache - Using tag
-      #   uses: ./ #isweluiz/ansible-in-docker-action@main
-      #   with:
-      #     playbook: ./test/playbook.yml
-      #     inventory: ./test/inventory
-      #     verbosity: vv
-      #     #tags: apache
+      - name: Perform ansible playbook - Install Apache - Using tag
+        uses: ./ #isweluiz/ansible-in-docker-action@main
+        with:
+          playbook: ./test/playbook.yml
+          inventory: ./test/inventory
+          verbosity: vv
+          tags: 'apache,output'

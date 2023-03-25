@@ -189,8 +189,7 @@ fi
 
 # Below the command that we're going to agregate and run after all the parameters filled on the action. 
 # =====================================================================================================
-echo "Going to execute:\n"
+echo "Going to execute:"
 echo -e "ansible-playbook ${INPUT_PLAYBOOK} ${TAGS} ${SKIP_TAGS} ${INVENTORY} ${LIMITGROUP} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE}"
 
 ansible-playbook ${INPUT_PLAYBOOK} ${TAGS} ${SKIP_TAGS} ${INVENTORY} ${LIMITGROUP} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE} 
-
