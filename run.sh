@@ -191,7 +191,7 @@ fi
 export EXTRAVARS=
 if [ -z "$INPUT_EXTRAVARS" ]
 then
-  #echo "\$INPUT_EXTRAVARS not set. No tags to skip"
+  echo "\$INPUT_EXTRAVARS not set. No tags to skip"
 else
   #echo "\$INPUT_EXTRAVARS is set. Will inject ${INPUT_EXTRAVARS}."
   export EXTRAVARS="-e ${INPUT_EXTRAVARS}"
