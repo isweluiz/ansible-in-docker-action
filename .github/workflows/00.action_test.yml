@@ -1,9 +1,9 @@
 ---
-name: CI - test
+name: Test
 on:
   push:
     branches:
-      - 'main'
+      - '*'
 
 jobs:
 
@@ -16,9 +16,29 @@ jobs:
         with:
           fetch-depth: 0 
 
-      - name: Perform ansible playbook
-        uses: isweluiz/ansible-in-docker-action@main
+      - name: Perform ansible playbook - Debug Tasks - Skiping tags
+        uses: ./
         with:
-          playbookName: ./test/playbook.yml
-          inventoryFile: ./test/inventory.yml
+          playbook: ./test/playbook.yml
+          inventory: ./test/inventory
+          verbosity: v
+          skipTags: 'apache'
+      #tags: 'custom'
+
+      - name: Perform ansible playbook - Install Apache - Using tag
+        uses: ./ #isweluiz/ansible-in-docker-action@main
+        with:
+          playbook: ./test/playbook.yml
+          inventory: ./test/inventory
           verbosity: vv
+    #tags: 'apache,output'
+
+      - name: Perform ansible playbook - Extra variable - Using tag
+        uses: ./ #isweluiz/ansible-in-docker-action@main
+        with:
+          playbook: ./test/playbook.yml
+          inventory: ./test/inventory
+          verbosity: vv
+    #skipTags: 'apache,output,custom'
+          extraVars: '"variable_xpto=Ansible"'
+          checkMode: 'true'

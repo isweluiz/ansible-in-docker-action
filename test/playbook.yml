@@ -4,10 +4,27 @@
   connection: local
 
   tasks:
-    - name: Output debug message
-      debug:
+    - name: Output debug message.
+      ansible.builtin.debug:
         msg: "Hello, world! This is a debug message."
+      tags:
+        - output
 
-    - name: Output custom message
-      debug:
+    - name: Custom message.
+      ansible.builtin.debug:
         msg: "This is a custom message. It will only appear if the previous task succeeded."
+      tags:
+        - custom
+
+    - name: Install Apache.
+      ansible.builtin.package:
+        name: apache2
+        state: present
+      tags:
+        - apache
+
+    - name: Extra variable
+      ansible.builtin.debug:
+        msg: "{{ variable_xpto }}"
+      tags:
+        - variable

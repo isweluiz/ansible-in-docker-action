@@ -8,8 +8,8 @@ jobs:
   respond-to-new-issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Respond to Issue
-        uses: peter-evans/create-issue-comment@v1.4.2
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v2.1.1
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |

@@ -1,8 +1,20 @@
 #!/bin/sh
+# =====================================================================================================
+# Ansible In Docker Action - by @isweluiz
+#  This shell script aims to be used to set set the ansible parameters.
+#  If you wanna clone the project and add more option, this is the file.
+#  In the end of this file you will see how the ansible command will be prepared to run after all \
+#  the variables are defined. 
+#
+#  The 'export' is used to export the variable to shell, then we check with 'if' if the conditional \
+#  was defined or not. In case its defined we set it, otherwise it will not be used.
+#
+# !NOTE!
+#   In case you have some doubt about any option used here, or want to add more option to achieve your \
+#   goal, check ansible documention. Also to test the action locally you can use the act project. :) 
+# =====================================================================================================
 
-set -e
-
-# Evaluate keyfilevaultpass
+# Evaluate Vault key
 export KEYFILEVAULTPASS=""
 if [ ! -z "$INPUT_KEYFILEVAULTPASS" ]; then
   echo "Using \$INPUT_KEYFILE_VAULT_PASS to decrypt and access vault."
@@ -40,15 +52,15 @@ fi
 
 # Evaluate inventory file
 export INVENTORY=
-if [ -z "$INPUT_INVENTORYFILE" ]
+if [ -z "$INPUT_INVENTORY" ]
 then
-  echo "\$INPUT_INVENTORYFILE not set. Won't use any inventory option at playbook call."
+  echo "\$INPUT_INVENTORY not set. Won't use any inventory option at playbook call."
 else
-  echo "\$INPUT_INVENTORYFILE is set. Will use ${INPUT_INVENTORYFILE} as inventory file."
-  export INVENTORY="-i ${INPUT_INVENTORYFILE}"
+  echo "\$INPUT_INVENTORY is set. Will use ${INPUT_INVENTORY} as inventory file."
+  export INVENTORY="-i ${INPUT_INVENTORY}"
 fi
 
-# Evaluate requirements.
+# Evaluate requirements
 export REQUIREMENTS=
 if [ -z "$INPUT_REQUIREMENTSFILE" ]
 then
@@ -96,7 +108,98 @@ else
   export EXTRAFILE="--extra-vars @${INPUT_EXTRAFILE}"
 fi
 
-echo "going to execute: "
-echo ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${VERBOSITY}
+# Evaluate ssh user for target machines connection
+export USER=
+if [ -z "$INPUT_USER" ]
+then
+  echo "\$INPUT_USER not set. Won't inject."
+else
+  echo "\$INPUT_USER is set. Will inject ${INPUT_USER}."
+  export USER="--user ${INPUT_USER}"
+fi
 
-ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${KEYFILEVAULTPASS} ${VERBOSITY}
+# Evaluate diff mode - used to report the changes made
+export DIFFMODE=
+if [ -z "$INPUT_DIFFMODE" -o "$INPUT_DIFFMODE" = 'false' ]
+then
+  echo "\$INPUT_DIFFMODE not set. Won't inject."
+elif [ -n "$INPUT_DIFFMODE" -a "$INPUT_DIFFMODE" = 'true' ]
+then
+  echo "\$INPUT_DIFFMODE is set. Will inject ${INPUT_DIFFMODE}."
+  export DIFFMODE="--diff"
+else
+  echo "\$INPUT_DIFFMODE not set. Won't inject."
+fi
+
+# Evaluate check mode - to simulate an execution
+export CHECKMODE=
+if [ -z "$INPUT_CHECKMODE" -o "$INPUT_CHECKMODE" = 'false' ]
+then
+  echo "\$INPUT_DIFFMODE not set. Won't inject."
+elif [ -n "$INPUT_CHECKMODE" -a "$INPUT_CHECKMODE" = 'true' ]
+then
+  echo "\$INPUT_CHECKMODE is set. Will inject ${INPUT_CHECKMODE}."
+  export CHECKMODE="--check"
+else
+  echo "\$INPUT_DIFFMODE not set. Won't inject."
+fi
+
+# Evaluate limit selected hosts to an additional pattern
+export LIMITGROUP=
+if [ -z "$INPUT_LIMITGROUP" ]
+then
+  echo "\$INPUT_LIMITGROUP not set. Won't inject."
+else
+  echo "\$INPUT_LIMITGROUP is set. Will inject ${INPUT_LIMITGROUP}."
+  export LIMITGROUP="--limit ${INPUT_LIMITGROUP}"
+fi
+
+# Evaluate check mode - to simulate an execution
+export BECOME=
+if [ -z "$INPUT_BECOMEMODE" -o "$INPUT_BECOMEMODE" = 'false' ]
+then
+  echo "\$INPUT_BECOMEMODE not set. Won't inject."
+elif [ -n "$INPUT_BECOMEMODE" -a "$INPUT_BECOMEMODE" = 'true' ]
+then
+  echo "\$INPUT_BECOMEMODE is set. Will inject ${INPUT_BECOMEMODE}."
+  export BECOME="--become"
+else
+  echo "\$INPUT_BECOMEMODE not set. Won't inject."
+fi
+
+# Evaluate tags values
+export TAGS=
+if [ -z "$INPUT_TAGS" ]
+then
+  echo "\$INPUT_TAGS not set. Won't inject tags."
+else
+  echo "\$INPUT_TAGS is set. Will inject ${INPUT_TAGS} tags."
+  export TAGS="--tags=${INPUT_TAGS}"
+fi
+
+# Evaluate skip tags
+export SKIP_TAGS=
+if [ -z "$INPUT_SKIPTAGS" ]
+then
+  echo "\$INPUT_SKIPTAGS not set. No tags to skip"
+else
+  echo "\$INPUT_SKIPTAGS is set. Will inject ${INPUT_SKIPTAGS}."
+  export SKIP_TAGS="--skip-tags=${INPUT_SKIPTAGS}"
+fi
+
+# Evaluate skip tags
+export EXTRAVARS=
+if [ -z "$INPUT_EXTRAVARS" ]
+then
+  echo "\$INPUT_EXTRAVARS not set. No tags to skip"
+else
+  #echo "\$INPUT_EXTRAVARS is set. Will inject ${INPUT_EXTRAVARS}."
+  export EXTRAVARS="-e ${INPUT_EXTRAVARS}"
+fi
+
+# Below the command that we're going to agregate and run after all the parameters filled on the action. 
+# =====================================================================================================
+echo "Going to execute:"
+echo -e "ansible-playbook ${INVENTORY} ${LIMITGROUP} ${INPUT_PLAYBOOK} ${EXTRAFILE} ${EXTRAVARS} ${TAGS} ${SKIP_TAGS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE}"
+
+ansible-playbook ${INVENTORY} ${LIMITGROUP} ${INPUT_PLAYBOOK} ${EXTRAFILE} ${EXTRAVARS} ${TAGS} ${SKIP_TAGS} ${KEYFILE} ${KEYFILEVAULTPASS} ${USER} ${BECOME} ${VERBOSITY} ${DIFFMODE} ${CHECKMODE} 

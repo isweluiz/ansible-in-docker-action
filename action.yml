@@ -1,12 +1,12 @@
-# action.yml
+---
 name: 'Ansible In Docker Action'
-author: 'Luiz'
-description: "Let's make Ansible a breeze with the Ansible-in-Docker action! ⚡️"
+author: '@isweluiz'
+description: "Ansible 2.14 - Let's make Ansible a breeze with the Ansible-in-Docker action!⚡️"
 inputs:
-  playbookName:
+  playbook:
     description: 'Name of the playbook in your workspace.'
     required: true
-  inventoryFile:
+  inventory:
     description: 'Name of the inventory file to use.'
     required: false
   requirementsFile:
@@ -35,13 +35,34 @@ inputs:
     required: false
   verbosity:
     description: 'Choose one of 4 verbosity levels. See Ansible documentation for details.'
+    required: false 
+  user:
+    description: 'Inform the ssh user to make connection with the target machines.'
+    required: false 
+  diffMode:
+    description: 'When you run in diff mode, any module that supports diff mode reports the changes made.'
     required: false
+  checkMode: 
+    description: 'When you run in diff mode, any module that supports diff mode reports the changes made.'
+    required: false
+  limitGroup: 
+    description: 'Further limit selected hosts to an additional pattern.'
+    required: false
+  becomeMethod:
+    description: 'Run operations with become (does not imply password prompting).'
+    required: false  
+  tags:
+    description: 'Select tags.'
+    required: false  
+  skipTags:
+    description: 'Skip tags.'
+    required: false 
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.playbookName }}
-    - ${{ inputs.inventoryFile }}
+    - ${{ inputs.playbook }}
+    - ${{ inputs.inventory }}
     - ${{ inputs.requirementsFile }}
     - ${{ inputs.galaxyGithubUser }}
     - ${{ inputs.galaxyGithubToken }}
@@ -50,7 +71,13 @@ runs:
     - ${{ inputs.extraVars }}
     - ${{ inputs.extraFile }}
     - ${{ inputs.verbosity }}
+    - ${{ inputs.user }}
+    - ${{ inputs.diffMode }}
+    - ${{ inputs.checkMode }}
+    - ${{ inputs.limitGroup }}
+    - ${{ inputs.becomeMethod }}
+    - ${{ inputs.tags }}
+    - ${{ inputs.skipTags }}
 branding:
   icon : 'play-circle'
   color : 'blue'
-

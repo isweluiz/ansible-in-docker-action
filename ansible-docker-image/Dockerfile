@@ -1,5 +1,5 @@
 FROM python:3.10.10-alpine3.16
-LABEL MAINTEINER="Luiz" 
+LABEL MAINTEINER="@isweluiz" 
 
 
 # Copying Ansible requirements
