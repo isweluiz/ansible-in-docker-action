@@ -23,7 +23,7 @@ jobs:
           inventory: ./test/inventory
           verbosity: v
           skipTags: 'apache'
-          tags: 'custom'
+      #tags: 'custom'
 
       - name: Perform ansible playbook - Install Apache - Using tag
         uses: ./ #isweluiz/ansible-in-docker-action@main
@@ -31,7 +31,7 @@ jobs:
           playbook: ./test/playbook.yml
           inventory: ./test/inventory
           verbosity: vv
-          tags: 'apache,output'
+    #tags: 'apache,output'
 
       - name: Perform ansible playbook - Extra variable - Using tag
         uses: ./ #isweluiz/ansible-in-docker-action@main
