@@ -60,7 +60,7 @@ jobs:
 
       - name: Set up Docker Buildx
         id: set-buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to Docker registry
         id: login-registry
