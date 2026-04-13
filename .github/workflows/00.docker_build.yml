@@ -36,7 +36,7 @@ jobs:
 #   -------------------------------------------------------------    
       - name: Checkout the repo
         id: checkout-repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 
 
@@ -120,7 +120,7 @@ jobs:
     steps:
 
       - name: Checkout the repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 
 
